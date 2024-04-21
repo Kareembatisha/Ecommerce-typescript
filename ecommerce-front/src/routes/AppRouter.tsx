@@ -20,7 +20,7 @@ const router = createBrowserRouter([
         element: <Categories />,
       },
       {
-        path: 'products/:prefix',
+        path: 'categories/products/:prefix',
         loader: ({ params }) => {
           if (
             typeof params.prefix !== 'string' ||

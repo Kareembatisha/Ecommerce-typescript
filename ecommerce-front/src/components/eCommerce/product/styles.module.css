@@ -5,21 +5,20 @@
   justify-content: space-between;
 }
 
-.productImg img {
-  width: 100%;
+.productImg {
   height: 180px;
   background-color: #f2f2f2;
+}
+.productImg img {
+  height: 100%;
   display: block;
 }
 
 .product h2 {
-  font-size: 17px;
+  font-size: 15px;
   margin-top: 9px;
   margin-bottom: 12px;
   width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .product h3 {
