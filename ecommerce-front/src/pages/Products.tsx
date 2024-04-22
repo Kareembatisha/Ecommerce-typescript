@@ -1,12 +1,14 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { GridList } from '@components/common'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
 import {
   actGetProductsbycatPrefix,
   ProductscleanUp,
 } from '@store/products/ProductsSlice'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { Product } from '@components/eCommerce'
+import { Loading } from '@components/feedback'
 
 const Products = () => {
   const params = useParams()
@@ -19,21 +21,14 @@ const Products = () => {
     }
   }, [dispatch, params])
 
-  const productsList =
-    records.length > 0
-      ? records.map((record) => (
-          <Col
-            xs={6}
-            md={3}
-            key={record.id}
-            className='d-flex justify-content-center mb-5 mt-2'>
-            <Product {...record} />
-          </Col>
-        ))
-      : 'There are no categories'
   return (
     <Container>
-      <Row>{productsList}</Row>
+      <Loading status={loading} error={error}>
+        <GridList
+          records={records}
+          renderItem={(record) => <Product {...record} />}
+        />
+      </Loading>
     </Container>
   )
 }
