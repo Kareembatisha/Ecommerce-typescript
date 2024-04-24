@@ -6,7 +6,6 @@ import {
   actGetProductsbycatPrefix,
   ProductscleanUp,
 } from '@store/products/ProductsSlice'
-import { Container } from 'react-bootstrap'
 import { Product } from '@components/eCommerce'
 import { Loading } from '@components/feedback'
 
@@ -18,7 +17,7 @@ const Products = () => {
 
   const productsFullInfo = records.map((el) => ({
     ...el,
-    quantity: cartItems[el.id] || 0 ,
+    quantity: cartItems[el.id] || 0,
   }))
   useEffect(() => {
     dispatch(actGetProductsbycatPrefix(params.prefix as string))
@@ -29,9 +28,7 @@ const Products = () => {
 
   return (
     <>
-      <Heading>
-        <span className='text-capitalize'>{params.prefix}</span> Products
-      </Heading>
+      <Heading>{params.prefix?.toUpperCase()} Products</Heading>
 
       <Loading status={loading} error={error}>
         <GridList
