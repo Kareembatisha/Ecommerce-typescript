@@ -5,6 +5,7 @@ import {
   actGetProductByItems,
   cartItemChangeQuantity,
   cartItemRemove,
+  productsFullInfoCleanUp,
 } from '@store/cart/CartSlice'
 import { useAppDispatch, useAppSelector } from '@store/hooks'
 import { useCallback, useEffect } from 'react'
@@ -17,6 +18,9 @@ const Cart = () => {
   )
   useEffect(() => {
     dispatch(actGetProductByItems())
+    return () => {
+      dispatch(productsFullInfoCleanUp())
+    }
   }, [dispatch])
 
   const products = ProductsFullInfo.map((el) => ({

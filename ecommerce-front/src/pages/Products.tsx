@@ -14,10 +14,12 @@ const Products = () => {
   const dispatch = useAppDispatch()
   const { loading, error, records } = useAppSelector((state) => state.Products)
   const cartItems = useAppSelector((state) => state.cart.items)
+  const wishListItemsId = useAppSelector((state) => state.wishlist.itemsId)
 
   const productsFullInfo = records.map((el) => ({
     ...el,
     quantity: cartItems[el.id] || 0,
+    isLiked: wishListItemsId.includes(el.id),
   }))
   useEffect(() => {
     dispatch(actGetProductsbycatPrefix(params.prefix as string))
