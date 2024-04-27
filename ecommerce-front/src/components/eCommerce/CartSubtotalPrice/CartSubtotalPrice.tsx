@@ -1,5 +1,5 @@
 import styles from './styles.module.css'
-import { TProduct } from '@customTypes/product'
+import { TProduct } from '@types'
 
 type CartSubtotalPriceProps = { products: TProduct[] }
 

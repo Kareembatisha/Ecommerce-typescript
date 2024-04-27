@@ -1,5 +1,5 @@
 import { memo, useEffect, useState } from 'react'
-import { TProduct } from '@customTypes/product'
+import { TProduct } from '@types'
 import { addToCart } from '@store/cart/CartSlice'
 import { Button, Spinner } from 'react-bootstrap'
 import Like from '@assets/svg/like.svg?react'
@@ -12,6 +12,7 @@ const { product, productImg, maximumNotice, WishlistBtn } = styles
 
 const Product = memo(
   ({ id, title, price, img, max, quantity, isLiked }: TProduct) => {
+
     const dispatch = useAppDispatch()
 
     const [isBtnDisabled, setIsBtnDisabled] = useState(false)

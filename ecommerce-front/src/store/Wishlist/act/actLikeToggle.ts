@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { axiosErrorHandler } from '@utils'
 
 const actLikeToggle = createAsyncThunk(
   'wishlist/actLikeToggle',
@@ -11,18 +12,13 @@ const actLikeToggle = createAsyncThunk(
       )
       if (isRecordExist.data.length > 0) {
         await axios.delete(`/wishlist/${isRecordExist.data[0].id}`)
-        return {type:"remove",id}
-      }else{
-        await axios.post('wishlist', { userId: '1', productId :id})
-                return { type: 'add', id }
-
+        return { type: 'remove', id }
+      } else {
+        await axios.post('wishlist', { userId: '1', productId: id })
+        return { type: 'add', id }
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response?.data.message || error.message)
-      } else {
-        return rejectWithValue('Network Error')
-      }
+      return rejectWithValue(axiosErrorHandler(error))
     }
   },
 )

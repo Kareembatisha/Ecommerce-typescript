@@ -1,4 +1,4 @@
-import { Tloading } from '@customTypes/shared'
+import { Tloading } from '@types'
 import React from 'react'
 
 type LoadingProps = {

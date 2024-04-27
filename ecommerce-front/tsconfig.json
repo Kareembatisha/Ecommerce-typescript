@@ -24,10 +24,13 @@
       "@pages/*": ["src/pages/*"],
       "@routes/*": ["src/routes/*"],
       "@store/*": ["src/store/*"],
-      "@customTypes/*": ["src/types/*"],
+      "@store": ["src/store/index"],
+      "@types/*": ["src/types/*"],
+      "@types": ["src/types/index"],
       "@styles/*": ["src/styles/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@util/*": ["src/util/*"],
+      "@utils/*": ["src/utils/*"],
+      "@utils": ["src/utils/index"],
       "@services/*": ["src/services/*"]
     },
 

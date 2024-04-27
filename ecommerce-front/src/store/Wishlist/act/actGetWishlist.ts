@@ -1,17 +1,18 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { TProduct } from '@customTypes/product'
+import { TProduct } from '@types'
+import { axiosErrorHandler } from '@utils'
 
 type TResponse = TProduct[]
 
 const actGetWishlist = createAsyncThunk(
   'wishlist/actGetWishlist',
   async (_, thunkAPI) => {
-    const { rejectWithValue, fulfillWithValue } = thunkAPI
+    const { rejectWithValue, fulfillWithValue,signal } = thunkAPI
 
     try {
       const userWishlist = await axios.get<{ productId: number }[]>(
-        '/wishlist?userId=1',
+        '/wishlist?userId=1',{signal}
       )
       if (!userWishlist.data.length) {
         return fulfillWithValue([])
@@ -24,11 +25,7 @@ const actGetWishlist = createAsyncThunk(
       )
       return response.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response?.data.message || error.message)
-      } else {
-        return rejectWithValue('Network Error')
-      }
+      return rejectWithValue(axiosErrorHandler(error))
     }
   },
 )
