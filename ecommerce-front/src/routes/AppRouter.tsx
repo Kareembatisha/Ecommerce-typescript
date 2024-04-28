@@ -1,21 +1,27 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
-const MainLayout = lazy(() => import('@layouts/MainLayout/MainLayout')) 
-const Home = lazy(() => import('@pages/Home')) 
-const Wishlist = lazy(() => import('@pages/Wishlist')) 
-const Categories = lazy(() => import('@pages/Categories')) 
-const Products = lazy(() => import('@pages/Products')) 
-const AboutUs = lazy(() => import('@pages/AboutUs')) 
-const Login = lazy(() => import('@pages/Login')) 
-const Register = lazy(() => import('@pages/Register')) 
-const Cart = lazy(() => import('@pages/Cart')) 
-const Error = lazy(() => import('@pages/Error')) 
+import { LottieHandler, PageSuspenseFallback } from '@components/feedback'
+const MainLayout = lazy(() => import('@layouts/MainLayout/MainLayout'))
+const Home = lazy(() => import('@pages/Home'))
+const Wishlist = lazy(() => import('@pages/Wishlist'))
+const Categories = lazy(() => import('@pages/Categories'))
+const Products = lazy(() => import('@pages/Products'))
+const AboutUs = lazy(() => import('@pages/AboutUs'))
+const Login = lazy(() => import('@pages/Login'))
+const Register = lazy(() => import('@pages/Register'))
+const Cart = lazy(() => import('@pages/Cart'))
+import Error from '@pages/Error'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <Suspense fallback='loading wait ...'>
+      <Suspense
+        fallback={
+          <div style={{ marginTop: '10%' }}>
+            <LottieHandler type='loading' message='Loading please wait...' />
+          </div>
+        }>
         <MainLayout />
       </Suspense>
     ),
@@ -24,33 +30,33 @@ const router = createBrowserRouter([
       {
         index: true,
         element: (
-          <Suspense fallback='loading wait ...'>
+          <PageSuspenseFallback>
             <Home />
-          </Suspense>
+          </PageSuspenseFallback>
         ),
       },
       {
         path: 'cart',
         element: (
-          <Suspense fallback='loading wait ...'>
+          <PageSuspenseFallback>
             <Cart />
-          </Suspense>
+          </PageSuspenseFallback>
         ),
       },
       {
         path: 'wishlist',
         element: (
-          <Suspense fallback='loading wait ...'>
+          <PageSuspenseFallback>
             <Wishlist />
-          </Suspense>
+          </PageSuspenseFallback>
         ),
       },
       {
         path: 'categories',
         element: (
-          <Suspense fallback='loading wait ...'>
+          <PageSuspenseFallback>
             <Categories />
-          </Suspense>
+          </PageSuspenseFallback>
         ),
       },
       {
@@ -69,33 +75,33 @@ const router = createBrowserRouter([
           return true
         },
         element: (
-          <Suspense fallback='loading wait ...'>
+          <PageSuspenseFallback>
             <Products />
-          </Suspense>
+          </PageSuspenseFallback>
         ),
       },
       {
         path: 'about-us',
         element: (
-          <Suspense fallback='loading wait ...'>
+          <PageSuspenseFallback>
             <AboutUs />
-          </Suspense>
+          </PageSuspenseFallback>
         ),
       },
       {
         path: 'login',
         element: (
-          <Suspense fallback='loading wait ...'>
+          <PageSuspenseFallback>
             <Login />
-          </Suspense>
+          </PageSuspenseFallback>
         ),
       },
       {
         path: 'register',
         element: (
-          <Suspense fallback='loading wait ...'>
+          <PageSuspenseFallback>
             <Register />
-          </Suspense>
+          </PageSuspenseFallback>
         ),
       },
     ],

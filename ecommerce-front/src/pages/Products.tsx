@@ -11,8 +11,9 @@ const { productPrefix, loading, error, productsFullInfo } = useProducts()
     <>
       <Heading title={`${productPrefix?.toUpperCase()} Products`} />
 
-      <Loading status={loading} error={error}>
+      <Loading status={loading} error={error} type="product">
         <GridList
+        emptyMessage='No products found...'
           records={productsFullInfo}
           renderItem={(record) => <Product {...record} />}
         />

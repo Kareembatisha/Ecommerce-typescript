@@ -1,24 +1,18 @@
+import { LottieHandler } from '@components/feedback'
+import { Link } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
-import { Link, useRouteError, isRouteErrorResponse } from 'react-router-dom'
-const Error = () => {
-  const error = useRouteError()
-  let errorstatus: number
-  let errorstatustext: string
 
-  if (isRouteErrorResponse(error)) {
-    errorstatus = error.status
-    errorstatustext = error.statusText
-  } else {
-    errorstatus = 404
-    errorstatustext = 'Page Not Found'
-  }
+const Error = () => {
   return (
-    <Container className='notFound'>
-      <h1>{errorstatus}</h1>
-      <p>{errorstatustext}</p>
-      <Link to='/' replace={true}>
-        wrong Page please return to home Page
-      </Link>
+    <Container>
+      <div
+        className='d-flex flex-column align-items-center'
+        style={{ marginTop: '15%' }}>
+        <LottieHandler type='notFound' />
+        <Link to='/' replace={true}>
+          How about going back to safety?
+        </Link>
+      </div>
     </Container>
   )
 }
