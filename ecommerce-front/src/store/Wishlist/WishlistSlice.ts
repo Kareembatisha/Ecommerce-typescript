@@ -1,25 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 import actLikeToggle from './act/actLikeToggle'
 import actGetWishlist from './act/actGetWishlist'
-import { Tloading,TProduct ,isString} from '@types'
-
-interface IWishList {
+import { authLogout } from '@store/auth/authSlice'
+import { TProduct, Tloading, isString } from '@types'
+interface IWishlist {
   itemsId: number[]
-  error: null | string
   productsFullInfo: TProduct[]
+  error: null | string
   loading: Tloading
 }
 
-const initialState: IWishList = {
+const initialState: IWishlist = {
   itemsId: [],
   productsFullInfo: [],
-
   error: null,
-
   loading: 'idle',
 }
 
-const WishlistSlice = createSlice({
+const wishlistSlice = createSlice({
   name: 'wishlist',
   initialState,
   reducers: {
@@ -42,29 +40,38 @@ const WishlistSlice = createSlice({
       }
     })
     builder.addCase(actLikeToggle.rejected, (state, action) => {
-      if (action.payload && typeof action.payload === 'string') {
+      if (isString(action.payload)) {
         state.error = action.payload
       }
     })
     // get wishlist items
-
     builder.addCase(actGetWishlist.pending, (state) => {
       state.loading = 'pending'
       state.error = null
     })
     builder.addCase(actGetWishlist.fulfilled, (state, action) => {
       state.loading = 'succeeded'
-
-      state.productsFullInfo = action.payload
+      if (action.payload.dataType === 'ProductsFullInfo') {
+        state.productsFullInfo = action.payload.data as TProduct[]
+      } else if (action.payload.dataType === 'productsIds') {
+        state.itemsId = action.payload.data as number[]
+      }
     })
     builder.addCase(actGetWishlist.rejected, (state, action) => {
       state.loading = 'failed'
-       if (isString(action.payload)) {
-         state.error = action.payload
-       }
+      if (isString(action.payload)) {
+        state.error = action.payload
+      }
+    })
+
+    // when logout reset
+    builder.addCase(authLogout, (state) => {
+      state.itemsId = []
+      state.productsFullInfo = []
     })
   },
 })
-export const { cleanWishlistProductsFullInfo } = WishlistSlice.actions
+
 export { actLikeToggle, actGetWishlist }
-export default WishlistSlice.reducer
+export const { cleanWishlistProductsFullInfo } = wishlistSlice.actions
+export default wishlistSlice.reducer

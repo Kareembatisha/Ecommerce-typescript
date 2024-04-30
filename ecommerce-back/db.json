@@ -1,5 +1,13 @@
 {
-  "users": [],
+  "users": [
+    {
+      "email": "lkkkkkk@gmail.com",
+      "password": "$2a$10$MSa3Yy1be9jzchJW8dIcQOSG7B5f0PW.NjDXI.brdkGL8DHqHS8ki",
+      "firstName": "Kareem",
+      "lastName": "Batisha ",
+      "id": 1
+    }
+  ],
   "categories": [
     {
       "id": 1,

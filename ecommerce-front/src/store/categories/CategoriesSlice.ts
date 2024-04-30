@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import actGetCategories from './act/actGetCategories'
-import { Tloading,Tcategory ,isString} from '@types'
+import { Tcategory, Tloading, isString } from '@types'
+
 interface ICategoriesState {
   records: Tcategory[]
   loading: Tloading
@@ -13,7 +14,7 @@ const initialState: ICategoriesState = {
   error: null,
 }
 
-const CategoriesSlice = createSlice({
+const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
@@ -23,20 +24,22 @@ const CategoriesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(actGetCategories.pending, (state) => {
-      ;(state.loading = 'pending'), (state.error = null)
+      state.loading = 'pending'
+      state.error = null
     })
     builder.addCase(actGetCategories.fulfilled, (state, action) => {
-      ;(state.loading = 'succeeded'), (state.records = action.payload)
+      state.loading = 'succeeded'
+      state.records = action.payload
     })
     builder.addCase(actGetCategories.rejected, (state, action) => {
       state.loading = 'failed'
-       if (isString(action.payload)) {
-         state.error = action.payload
-       }
+      if (isString(action.payload)) {
+        state.error = action.payload
+      }
     })
   },
 })
 
 export { actGetCategories }
-export const { categoriesRecordsCleanUp } = CategoriesSlice.actions
-export default CategoriesSlice.reducer
+export const { categoriesRecordsCleanUp } = categoriesSlice.actions
+export default categoriesSlice.reducer

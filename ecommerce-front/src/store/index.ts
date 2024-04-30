@@ -9,36 +9,47 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist'
-import Categories from './categories/CategoriesSlice'
-import cart from './cart/CartSlice'
-import Products from './products/ProductsSlice'
 import storage from 'redux-persist/lib/storage'
+import Categories from './categories/CategoriesSlice'
+import products from './products/ProductsSlice'
+import cart from './cart/CartSlice'
 import wishlist from './Wishlist/WishlistSlice'
+import auth from './auth/authSlice'
+
+const rootPersistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['cart', 'auth'],
+}
+
+const authPersistConfig = {
+  key: 'auth',
+  storage,
+  whiteList: ['user', 'accessToken'],
+}
 
 const cartPersistConfig = {
   key: 'cart',
   storage,
   whitelist: ['items'],
 }
-const wishlistPersistConfig = {
-  key: 'wishlist',
-  storage,
-  whitelist: ['itemsId'],
-}
 
 const rootReducer = combineReducers({
+  auth: persistReducer(authPersistConfig, auth),
   Categories,
-  Products,
+  products,
   cart: persistReducer(cartPersistConfig, cart),
-  wishlist: persistReducer(wishlistPersistConfig, wishlist),
+  wishlist: wishlist,
 })
 
+const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
+
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
 })
@@ -47,5 +58,7 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
+
 const persistor = persistStore(store)
+
 export { store, persistor }

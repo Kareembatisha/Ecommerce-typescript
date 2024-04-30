@@ -6,5 +6,6 @@ export type TProduct = {
   img: string
   quantity?: number
   max: number
-  isLiked?:boolean
+  isLiked?: boolean
+  isAuthenticated?: boolean
 }

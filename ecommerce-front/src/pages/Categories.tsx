@@ -1,18 +1,18 @@
-
-import { GridList, Heading } from '@components/common'
-import { Category } from '@components/eCommerce'
-import { Loading } from '@components/feedback'
 import useCategories from '@hooks/useCategories'
+import { Category } from '@components/eCommerce'
+import { GridList, Heading } from '@components/common'
+import { Loading } from '@components/feedback'
+import { Tcategory } from '@types'
 
 const Categories = () => {
-  const{loading,error,records}=useCategories()
+  const { loading, error, records } = useCategories()
 
   return (
     <>
       <Heading title='Categories' />
       <Loading status={loading} error={error} type='category'>
-        <GridList
-        emptyMessage='No categories found.'
+        <GridList<Tcategory>
+          emptyMessage='There are no categories'
           records={records}
           renderItem={(record) => <Category {...record} />}
         />
