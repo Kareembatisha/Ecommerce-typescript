@@ -3,8 +3,10 @@ import Product from './product/product'
 import CartItem from './CartItem/CartItem'
 
 
+
 import CartSubtotalPrice from './CartSubtotalPrice/CartSubtotalPrice'
 import CartItemList from './CartItemList/CartItemList'
+import ProductInfo from './ProductInfo/ProductInfo'
 
 export {
   Category,
@@ -12,4 +14,5 @@ export {
   CartItem,
   CartSubtotalPrice,
   CartItemList,
+  ProductInfo,
 }

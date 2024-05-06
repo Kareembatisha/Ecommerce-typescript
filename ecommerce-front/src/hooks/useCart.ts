@@ -1,30 +1,33 @@
+import { useCallback, useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from '@store/hooks'
 import {
-  actGetProductByItems,
+  actGetProductsByItems,
   cartItemChangeQuantity,
   cartItemRemove,
   cleanCartProductsFullInfo,
 } from '@store/cart/CartSlice'
-import { useAppDispatch, useAppSelector } from '@store/hooks'
-import { useCallback, useEffect } from 'react'
+import { resetOrderStatus } from '@store/orders/ordersSlice'
 
 const useCart = () => {
   const dispatch = useAppDispatch()
 
-  const { items, ProductsFullInfo, loading, error } = useAppSelector(
+  const { items, productsFullInfo, loading, error } = useAppSelector(
     (state) => state.cart,
   )
+
+  const userAccessToken = useAppSelector((state) => state.auth.accessToken)
+
+  const { loading: placeOrderStatus } = useAppSelector((state) => state.orders)
+
   useEffect(() => {
-    const promise = dispatch(actGetProductByItems())
+    const promise = dispatch(actGetProductsByItems())
+
     return () => {
       dispatch(cleanCartProductsFullInfo())
+      dispatch(resetOrderStatus())
       promise.abort()
     }
   }, [dispatch])
-
-  const products = ProductsFullInfo.map((el) => ({
-    ...el,
-    quantity: items[el.id],
-  }))
 
   const changeQuantityHandler = useCallback(
     (id: number, quantity: number) => {
@@ -39,7 +42,23 @@ const useCart = () => {
     },
     [dispatch],
   )
-  return { loading, error, products, changeQuantityHandler, removeItemHandler }
+
+  const products = productsFullInfo
+    ? productsFullInfo.map((el) => ({
+        ...el,
+        quantity: items[el.id],
+      }))
+    : []
+
+  return {
+    loading,
+    error,
+    placeOrderStatus,
+    products,
+    userAccessToken,
+    changeQuantityHandler,
+    removeItemHandler,
+  }
 }
 
 export default useCart

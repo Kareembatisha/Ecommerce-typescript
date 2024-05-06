@@ -3,12 +3,14 @@ import notFound from '@assets/svg/LottieFiles/notfound.json'
 import empty from '@assets/svg/LottieFiles/empty.json'
 import loading from '@assets/svg/LottieFiles/loading.json'
 import error from '@assets/svg/LottieFiles/error.json'
+import success from '@assets/svg/LottieFiles/success.json'
 
 const lottieFilesMap = {
   notFound,
   empty,
   loading,
   error,
+  success,
 }
 
 type LottieHandlerProps = {
@@ -26,7 +28,7 @@ const LottieHandler = ({ type, message, className }: LottieHandlerProps) => {
 
   return (
     <div className={`d-flex flex-column align-items-center ${className}`}>
-      <Lottie animationData={lottie} style={{ width: '400px' }} />
+      <Lottie animationData={lottie} style={{ width: '400px' }} loop={false} />
       {message && <h3 style={messageStyle}>{message}</h3>}
     </div>
   )

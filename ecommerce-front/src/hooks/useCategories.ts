@@ -9,7 +9,7 @@ const useCategories = () => {
   const dispatch = useAppDispatch()
 
   const { loading, error, records } = useAppSelector(
-    (state) => state.Categories,
+    (state) => state.categories,
   )
 
   useEffect(() => {

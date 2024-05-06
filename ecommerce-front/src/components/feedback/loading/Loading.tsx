@@ -1,10 +1,9 @@
-import { Tloading } from '@types'
-import React from 'react'
 import CategorySkeleton from '../skeletons/CategorySkeletons/CategorySkeletons'
-import CartSkeleton from '../skeletons/CartSkeletons/CartSkeletons'
 import ProductSkeleton from '../skeletons/ProductSkeleton/ProductSkeleton'
+import CartSkeleton from '../skeletons/CartSkeletons/CartSkeletons'
 import LottieHandler from '../LottieHandler/LottieHandler'
 
+import { Tloading } from '@types'
 
 const skeletonsTypes = {
   category: CategorySkeleton,
@@ -23,7 +22,7 @@ const Loading = ({
   status,
   error,
   children,
-  type = "category",
+  type = 'category',
 }: LoadingProps) => {
   const Component = skeletonsTypes[type]
 
@@ -31,9 +30,13 @@ const Loading = ({
     return <Component />
   }
   if (status === 'failed') {
-    return <p><LottieHandler  type='error' message={error as string} /></p>
+    return (
+      <div>
+        <LottieHandler type='error' message={error as string} />
+      </div>
+    )
   }
-  return <>{children}</>
+  return <div>{children}</div>
 }
 
 export default Loading

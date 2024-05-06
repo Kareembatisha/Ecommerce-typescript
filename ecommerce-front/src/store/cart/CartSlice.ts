@@ -1,21 +1,18 @@
-import { TProduct, isString, Tloading } from '@types'
 import { createSlice } from '@reduxjs/toolkit'
-import {
-  getCartTotalQuantitySelector,
-  itemQuantityAvailabilityCheckingSelector,
-} from './selectors'
-import actGetProductByItems from './act/actGetProductByItems'
+import actGetProductsByItems from './act/actGetProductByItems'
+import { getCartTotalQuantitySelector } from './selectors'
+import { TProduct, Tloading, isString } from '@types'
 
 interface ICartState {
   items: { [key: string]: number }
-  ProductsFullInfo: TProduct[]
+  productsFullInfo: TProduct[]
   loading: Tloading
   error: null | string
 }
 
 const initialState: ICartState = {
   items: {},
-  ProductsFullInfo: [],
+  productsFullInfo: [],
   loading: 'idle',
   error: null,
 }
@@ -24,9 +21,6 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    cleanCartProductsFullInfo: (state) => {
-      state.ProductsFullInfo = []
-    },
     addToCart: (state, action) => {
       const id = action.payload
       if (state.items[id]) {
@@ -40,37 +34,44 @@ const cartSlice = createSlice({
     },
     cartItemRemove: (state, action) => {
       delete state.items[action.payload]
-      state.ProductsFullInfo = state.ProductsFullInfo.filter(
+      state.productsFullInfo = state.productsFullInfo.filter(
         (el) => el.id !== action.payload,
       )
     },
+    cleanCartProductsFullInfo: (state) => {
+      state.productsFullInfo = []
+    },
+    clearCart: (state) => {
+      state.items = {}
+      state.productsFullInfo = []
+    },
   },
-  extraReducers(builder) {
-    builder.addCase(actGetProductByItems.pending, (state) => {
-      ;(state.loading = 'pending'), (state.error = null)
+  extraReducers: (builder) => {
+    builder.addCase(actGetProductsByItems.pending, (state) => {
+      state.loading = 'pending'
+      state.error = null
     })
-    builder.addCase(actGetProductByItems.fulfilled, (state, action) => {
+    builder.addCase(actGetProductsByItems.fulfilled, (state, action) => {
       state.loading = 'succeeded'
-      state.ProductsFullInfo = action.payload
+      state.productsFullInfo = action.payload
     })
-    builder.addCase(actGetProductByItems.rejected, (state, action) => {
+    builder.addCase(actGetProductsByItems.rejected, (state, action) => {
       state.loading = 'failed'
-      if (isString( action.payload) ) {
+      if (isString(action.payload)) {
         state.error = action.payload
       }
     })
   },
 })
 
-export {
-  getCartTotalQuantitySelector,
-  actGetProductByItems,
-  itemQuantityAvailabilityCheckingSelector,
-}
+export { getCartTotalQuantitySelector, actGetProductsByItems }
+
 export const {
   addToCart,
   cartItemChangeQuantity,
   cartItemRemove,
   cleanCartProductsFullInfo,
+  clearCart,
 } = cartSlice.actions
+
 export default cartSlice.reducer

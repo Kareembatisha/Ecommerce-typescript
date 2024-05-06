@@ -10,11 +10,12 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import Categories from './categories/CategoriesSlice'
+import categories from './categories/CategoriesSlice'
 import products from './products/ProductsSlice'
 import cart from './cart/CartSlice'
 import wishlist from './Wishlist/WishlistSlice'
 import auth from './auth/authSlice'
+import orders from './orders/ordersSlice'
 
 const rootPersistConfig = {
   key: 'root',
@@ -36,10 +37,11 @@ const cartPersistConfig = {
 
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth),
-  Categories,
+  categories,
   products,
   cart: persistReducer(cartPersistConfig, cart),
   wishlist: wishlist,
+  orders,
 })
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
